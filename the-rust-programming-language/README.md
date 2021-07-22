@@ -89,3 +89,48 @@ String formatting:
 ```rust
 println!("Your number is: {}", value);
 ```
+
+> Cargo understands Semantic Versioning 
+
+Rust crate registry: https://crates.io
+
+```sh
+cargo update
+```
+
+```rust
+use rand::Rng // Rng is a trait. Not covered here yet, more in Chapter 14.
+```
+
+Range expressions:
+
+```rust
+1..101 // Between 1 (inclusive) and 101 (exclusive).
+1..=100 // Both ends inclusive.
+```
+
+```sh
+cargo doc --open # Build dependencies for all local dependencies and opens in browser. This is way cool.
+```
+
+A `match` expression comprises arms, each arm contains a pattern for matching.
+
+Rust allows shadowing of variables:
+
+```rust
+let mut guess = String::new();
+
+// ...
+
+let guess: u32 = guess.parse().expect("Please enter a number!");
+```
+
+Handling the `Result` type:
+
+```rust
+let guess: u32 = guess.trim().parse() {
+  Ok(num) => num,
+  Err(_) => continue, // _ is a catch all value.
+}
+```
+
