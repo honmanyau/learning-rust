@@ -1,6 +1,6 @@
 # The Rust Programming Language
 
-This file contains crude notes for points that I find important or interesting in the book [The Rust Programming Language](https://doc.rust-lang.org/book)
+This file contains crude notes for points that I find important or interesting in the book [The Rust Programming Language](https://doc.rust-lang.org/book).
 
 ## Introduction
 
@@ -24,3 +24,29 @@ rustc --version
 rustup doc
 ```
 
+### 1.2 Hello, world!
+
+> The main function is special: it is always the first code that runs in every executable Rust program.
+
+Use `rustfmt` for formatting.
+
+> Rust is an ahead-of-time compiled language.
+
+This is gold:
+
+> Everything is a trade-off in language design.
+
+### 1.3 Hello, Cargo!
+
+> Rustaceans
+
+xD...
+
+```sh
+cargo --version
+
+cargo new
+cargo build [--release]
+cargo run
+cargo check # Check if code can compile. Does not produce executable.
+```
