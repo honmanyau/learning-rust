@@ -50,3 +50,42 @@ cargo build [--release]
 cargo run
 cargo check # Check if code can compile. Does not produce executable.
 ```
+
+## 2. Programming a Guessing Game
+
+[Rust Prelude](https://doc.rust-lang.org/std/prelude/index.html): A small set of predefined imports.
+
+> In Rust, variables are immutable by default.
+
+```rust
+let snowbell = String::new(); // immutable
+let mut cookie = String::new(); // mutable
+```
+
+Using `::` with a type indicates an *associated function* (static method).
+
+Note that instead of:
+
+```rust
+use std::io;
+
+io::stdin()
+// ...
+```
+
+We can also do:
+
+```rust
+std::io::stdin()
+// ...
+```
+
+The `&` symbol indicates an argument is a *reference*, like `*` in C?
+
+Reference in Rust are immutable by default, therefore in the exercise we write `io::stdin().read_line(&mut guess)`.
+
+String formatting:
+
+```rust
+println!("Your number is: {}", value);
+```
