@@ -5,7 +5,8 @@
 ## Table of Contents
 
 * [Introduction](#introduction)
+* [The Rust Programming Language](#the-rust-programming-language)
 
 ## Introduction
 
-This repository contains notes and projects that I created while learning Rust. It is meant for personal use and the primary purpose is to keep myself accountable and motivated.
+This repository contains notes and projects that I created while learning Rust. The primary purpose is to keep me accountable and motivated. The directories are structured based on the name of the learning resources used.
