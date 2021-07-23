@@ -134,3 +134,15 @@ let guess: u32 = guess.trim().parse() {
 }
 ```
 
+## 3. Common Programming Concepts
+
+> Constants aren’t just immutable by default—they’re always immutable.
+
+> ... constants may be set only to a constant expression...
+
+Like in JavaScript:
+
+```rust
+const // ... Must have data type annotation.
+let // ...
+```
