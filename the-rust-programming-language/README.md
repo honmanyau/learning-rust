@@ -250,3 +250,37 @@ for number in (1..4) {
 // 3
 ```
 
+## 4. Understanding Ownership
+
+### 4.1. What is Ownership?
+
+> Each value in Rust has a variable that’s called its owner.
+> There can only be one owner at a time.
+> When the owner goes out of scope, the value will be dropped.
+
+```rust
+fn main() {
+    let s1 = String::from("Nyanpasu!");
+    let s2 = s1; // s1 is no longer valid. This is known as `move` in Rust.
+
+    println!("{}", s1);
+}
+```
+
+> Rust will never automatically create “deep” copies of your data. Therefore, any automatic copying can be assumed to be inexpensive in terms of runtime performance.
+
+To create a deep copy we `clone`:
+
+```rust
+fn main() {
+    let s1 = String::from("Nyanpasu!");
+    let s2 = s1.clone();
+
+    println!("{} {}", s1, s2); // Nyanpasu! Nyanpasu!
+}
+```
+
+> Passing a variable to a function will move or copy, just as assignment does.
+
+> Returning values can also transfer ownership
+
