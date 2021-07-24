@@ -209,3 +209,44 @@ fn fib(x: i32) {
 3.3. Functions
 
 > Statements do not return values.
+
+3.5. Flow Control
+
+It looks like `rustfmt` doesn't like parentheses around `if` conditions.
+
+Consider using `match` when there are too many `if`-`else` statements involved.
+
+> ... blocks of code evaluate to the last expression in them.
+
+```rust
+let condition = true;
+let number = if condition { 5 } else { 6 };
+
+println!("The value of number is: {}", number); // 5
+```
+
+Loops: `loop`, `while` and `for`.
+
+We can return a value inside a loop as follows:
+
+```rust
+let result = loop {
+    counter += 1;
+
+    if counter == 10 {
+        break counter * 2;
+    }
+}; // 20
+```
+
+For loop in Rust:
+
+```rust
+for number in (1..4) {
+    println!("{}", number);
+}
+// 1
+// 2
+// 3
+```
+
