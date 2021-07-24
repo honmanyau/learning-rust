@@ -284,3 +284,55 @@ fn main() {
 
 > Returning values can also transfer ownership
 
+Mutable reference:
+
+```rust
+fn main() {
+  let mut s = String::from("Nyan");
+
+  mutate(&mut s);
+
+  println!("{}", s);
+}
+
+fn mutate(s: &mut String) {
+  s.push_str("pasu!");
+}
+```
+
+> ... you can have only one mutable reference to a particular piece of data in a particular scope.
+
+> A similar rule exists for combining mutable and immutable references.
+
+Not okay:
+
+```rust
+let mut s = String::from("Nyanpasu!");
+
+let ref1 = &s;
+let ref2 = &s;
+let ref3 = &mut s;
+
+println!("{}, {}, and {}", ref1, ref2, ref3);
+```
+
+Okay:
+
+```rust
+// Not okay.
+let mut s = String::from("Nyanpasu!");
+
+let ref1 = &s;
+let ref2 = &s;
+
+println!("{}, and {}", ref1, ref2);
+
+let ref3 = &mut s;
+
+println!("{}", ref3);
+```
+
+> ... the compiler guarantees that references will never be dangling references.
+
+
+
