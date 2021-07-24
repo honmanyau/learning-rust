@@ -136,6 +136,8 @@ let guess: u32 = guess.trim().parse() {
 
 ## 3. Common Programming Concepts
 
+### 3.1 Variables and Mutability
+
 > Constants aren’t just immutable by default—they’re always immutable.
 
 > ... constants may be set only to a constant expression...
@@ -146,3 +148,74 @@ Like in JavaScript:
 const // ... Must have data type annotation.
 let // ...
 ```
+
+### 3.2 Data Types
+
+> Rust is a statically typed language
+
+Rust has signed and unsigned integer types from 8-bit bit up to 128-bit:
+
+```rust
+let x: i8 = -128;
+let x: u8 = 127;
+let x: isize = 42; // Depends on CPU architecture.
+```
+
+Floating point:
+
+```rust
+let x: f32 = 3.2;
+let x: f64 = 6.4;
+```
+
+> Rust’s char type is four bytes in size and represents a Unicode Scalar Value.
+
+> Rust has two primitive compound types: tuples and arrays.
+
+```rust
+let tup: (i32, f64, u8) = (42, 4.2, 1);
+```
+
+Tuple destructuring:
+
+```rust
+let (x, y, z) = tup; // Using tup from the previous example.
+
+println!(x); // 42
+println!(tup.0); // 42
+println!(tup.1); // 4.2
+println!(tup.2); // 1
+```
+
+Rust arrays are fixed in length.
+
+```rust
+let a = [1, 2, 3, 4, 5];
+let a: [i32; 5] = [1, 2, 3, 4, 5];
+let a = [3; 5]; // [3, 3, 3, 3, 3]
+
+print(a[0]); // 3
+print(a[1]); // 3
+```
+
+We can use typed parameter in Rust:
+
+```rust
+fn fib(x: i32) {
+  // ...
+}
+```
+
+3.3. Functions
+
+> Statements do not return values.
+
+```rust
+fn main() {
+    let x = (let y = 6);
+}
+```
+
+
+
+
