@@ -284,6 +284,8 @@ fn main() {
 
 > Returning values can also transfer ownership
 
+### 4.2. References and Borrowing
+
 Mutable reference:
 
 ```rust
@@ -333,6 +335,32 @@ println!("{}", ref3);
 ```
 
 > ... the compiler guarantees that references will never be dangling references.
+
+### 4.3. The Slice Type
+
+```rust
+let bytes = s.as_bytes(); // Convert s to an array of bytes.
+```
+
+```rust
+for (i, &item) in bytes.iter().enumerate() { // Similar to Python.
+```
+
+```rust
+b' ' // Byte literal of space.
+```
+
+String slices:
+
+```rust
+let s = String::from("Nyanpasu");
+
+let nyan = &s[0..4];
+let pasu = &s[4..8];
+let nyanpasu = &s[..8];
+let nyanpasu = &s[0..];
+let nyanpasu = &s[..];
+```
 
 
 
