@@ -209,13 +209,3 @@ fn fib(x: i32) {
 3.3. Functions
 
 > Statements do not return values.
-
-```rust
-fn main() {
-    let x = (let y = 6);
-}
-```
-
-
-
-
