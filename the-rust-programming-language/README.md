@@ -431,3 +431,18 @@ struct Rectangle {
 
 ### 5.3. Method Syntax
 
+Defining a method with an `impl` (implementation) block:
+
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.height * self.width
+    }
+}
+```
