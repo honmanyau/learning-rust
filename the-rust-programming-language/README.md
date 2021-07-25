@@ -446,3 +446,50 @@ impl Rectangle {
     }
 }
 ```
+
+Associated function:
+
+```rust
+
+```
+
+## 6. Enums and Pattern Matching
+
+### 6.1. Defining an Enum
+
+```rust
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+// With types.
+enum Direction {
+    Up(String),
+    Down(String),
+    Left(String),
+    Right(String),
+}
+
+// Anonymous struct
+enum Action {
+    Move { x: i32, y: i32 },
+}
+```
+
+Enums can also have methods, defined using `impl`.
+
+Standard `Option` `enum`:
+
+```rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+let some_number = Some(5);
+let some_string = Some("a string");
+let absent_number: Option<i32> = None;
+```
