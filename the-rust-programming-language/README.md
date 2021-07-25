@@ -493,3 +493,24 @@ let some_number = Some(5);
 let some_string = Some("a string");
 let absent_number: Option<i32> = None;
 ```
+
+### 6.2. The match Control Flow Operator
+
+> When the match expression executes, it compares the resulting value against the pattern of each arm, in order. 
+
+> Matches in Rust are exhaustive.
+
+Match all with the `_` placeholder:
+
+```rust
+let some_u8_value = 0u8;
+
+match some_u8_value {
+    1 => println!("one"),
+    3 => println!("three"),
+    _ => println!("Not one or three."),
+}
+```
+
+### 6.3. Concise Control Flow with if let
+
