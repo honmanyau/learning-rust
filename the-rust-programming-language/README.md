@@ -407,3 +407,27 @@ struct Colour(u8, u8, u8);
 let white_color = Color(255, 255, 255);
 ```
 
+### 5.2. An Example Program Using Structs
+
+Print structs:
+
+```rust
+
+fn main() {
+  let rect = Rectangle {
+    height: 24,
+    width: 42,
+  }
+
+  println!("{:#?}", rect); // #: with pretty print.
+}
+
+#[derive(Debug)]
+struct Rectangle {
+  height: u32,
+  width: u32,
+}
+```
+
+### 5.3. Method Syntax
+
