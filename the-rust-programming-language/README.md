@@ -436,14 +436,14 @@ Defining a method with an `impl` (implementation) block:
 ```rust
 #[derive(Debug)]
 struct Rectangle {
-    width: u32,
-    height: u32,
+  width: u32,
+  height: u32,
 }
 
 impl Rectangle {
-    fn area(&self) -> u32 {
-        self.height * self.width
-    }
+  fn area(&self) -> u32 {
+    self.height * self.width
+  }
 }
 ```
 
@@ -459,23 +459,23 @@ Associated function:
 
 ```rust
 enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
+  Up,
+  Down,
+  Left,
+  Right,
 }
 
 // With types.
 enum Direction {
-    Up(String),
-    Down(String),
-    Left(String),
-    Right(String),
+  Up(String),
+  Down(String),
+  Left(String),
+  Right(String),
 }
 
 // Anonymous struct
 enum Action {
-    Move { x: i32, y: i32 },
+  Move { x: i32, y: i32 },
 }
 ```
 
@@ -485,8 +485,8 @@ Standard `Option` `enum`:
 
 ```rust
 enum Option<T> {
-    Some(T),
-    None,
+  Some(T),
+  None,
 }
 
 let some_number = Some(5);
@@ -494,7 +494,7 @@ let some_string = Some("a string");
 let absent_number: Option<i32> = None;
 ```
 
-### 6.2. The match Control Flow Operator
+### 6.2. The `match` Control Flow Operator
 
 > When the match expression executes, it compares the resulting value against the pattern of each arm, in order. 
 
@@ -506,11 +506,21 @@ Match all with the `_` placeholder:
 let some_u8_value = 0u8;
 
 match some_u8_value {
-    1 => println!("one"),
-    3 => println!("three"),
-    _ => println!("Not one or three."),
+  1 => println!("one"),
+  3 => println!("three"),
+  _ => println!("Not one or three."),
 }
 ```
 
-### 6.3. Concise Control Flow with if let
+### 6.3. Concise Control Flow with `if let`
+
+```rust
+if let Some(3) = some_u8_value {
+  println!("three");
+} else { // Optional else.
+  
+}
+```
+
+`if let` is syntax sugar for `match`ing one pattern while ignoring all others.
 
