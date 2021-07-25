@@ -362,5 +362,48 @@ let nyanpasu = &s[0..];
 let nyanpasu = &s[..];
 ```
 
+## 5. Using Structs to Structure Related Data
 
+### 5.1. Defining and Instantiating Structs
+
+```rust
+struct User {
+    username: String,
+    email: String,
+    // ...
+}
+
+// ...
+
+let user = User {
+  username: "nyanpasu",
+  email: "nyanpasu@example.com",
+  // ...
+}
+
+let username: "nyanpasu";
+let email: "nyanpasu@example.com";
+let user = User {
+  email,
+  username,
+}
+```
+
+Update syntax:
+
+```rust
+let another_user {
+  username: "another",
+  email: "another@example.com",
+  ..user
+}
+```
+
+Tuple struct:
+
+```rust
+struct Colour(u8, u8, u8);
+
+let white_color = Color(255, 255, 255);
+```
 
