@@ -231,11 +231,11 @@ We can return a value inside a loop as follows:
 
 ```rust
 let result = loop {
-    counter += 1;
+  counter += 1;
 
-    if counter == 10 {
-        break counter * 2;
-    }
+  if counter == 10 {
+    break counter * 2;
+  }
 }; // 20
 ```
 
@@ -243,7 +243,7 @@ For loop in Rust:
 
 ```rust
 for number in (1..4) {
-    println!("{}", number);
+  println!("{}", number);
 }
 // 1
 // 2
@@ -260,10 +260,10 @@ for number in (1..4) {
 
 ```rust
 fn main() {
-    let s1 = String::from("Nyanpasu!");
-    let s2 = s1; // s1 is no longer valid. This is known as `move` in Rust.
+  let s1 = String::from("Nyanpasu!");
+  let s2 = s1; // s1 is no longer valid. This is known as `move` in Rust.
 
-    println!("{}", s1);
+  println!("{}", s1);
 }
 ```
 
@@ -273,10 +273,10 @@ To create a deep copy we `clone`:
 
 ```rust
 fn main() {
-    let s1 = String::from("Nyanpasu!");
-    let s2 = s1.clone();
+  let s1 = String::from("Nyanpasu!");
+  let s2 = s1.clone();
 
-    println!("{} {}", s1, s2); // Nyanpasu! Nyanpasu!
+  println!("{} {}", s1, s2); // Nyanpasu! Nyanpasu!
 }
 ```
 
@@ -635,5 +635,25 @@ use std::{cmp::Ordering, io};
 
 use std::io::{self, Write};
 
-use std::collections::*;
+use std::collections::*; // glob operator
+```
+
+### 7.5. Separating Modules into Different Files
+
+Importing module form another file:
+
+```rust
+// src/hello.rs
+pub mod world {
+  pub fn print() {
+    println!("Hello, world!");
+  }
+}
+
+// src/main.rs
+mod hello;
+
+fn main() {
+  hello::world::print();
+}
 ```
