@@ -732,3 +732,55 @@ let hello = String::from("Hola"); // 4 bytes.
 let hello = String::from("Здравствуйте"); // 24 bytes.
 let hello = String::from("नमस्ते"); // 18 bytes.
 ```
+
+### 8.3. Storing Keys with Associated Values in Hash Maps
+
+> Just like vectors, hash maps store their data on the heap.
+
+> Like vectors, hash maps are homogeneous.
+
+```rust
+let mut nonsensical = HashMap::new();
+
+nonsensical.insert(String::from("nyan"), 24);
+nonsensical.insert(String::from("pasu"), 42);
+
+let words = vec!("nyan", "pasu");
+let nums = vec!(24, 42);
+let nonsensical: HashMap<_, _> =
+    words.into_iter().zip(nums.into_iter()).collect();
+
+println!("{:?}", nonsensical);
+```
+
+> For types that implement the Copy trait, like i32, the values are copied into the hash map. For owned values like String, the values will be moved and the hash map will be the owner of those values.
+
+Accessing values in a hash map:
+
+```rust
+let value = nonsensical.get("nyan");
+
+match value {
+    Some(x) => println!("{}", x),
+    None => println!("No value found")
+}
+
+for (key, value) in &nonsensical {
+    println!("{}: {}", key, value);
+}
+```
+
+Overwriting values:
+
+```rust
+nonsensical.insert("nyan", 42);
+nonsensical.insert("pasu", 24);
+```
+
+Insert if key has no value:
+
+```rust
+nonsensical.entry("nyanpasu").or_insert(4224);
+```
+
+> By default, HashMap uses a hashing function called SipHash that can provide resistance to Denial of Service (DoS) attacks involving hash tables. This is not the fastest hashing algorithm available, but the trade-off for better security that comes with the drop in performance is worth it.
