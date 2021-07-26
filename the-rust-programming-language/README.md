@@ -657,3 +657,78 @@ fn main() {
   hello::world::print();
 }
 ```
+
+## 8. Common Collections
+
+### 8.1. Storing Lists of Values with Vectors
+
+> Vectors allow you to store more than one value in a single data structure that puts all the values next to each other in memory.
+
+```rust
+let v: Vec<i32> = Vec::new();
+
+let v = vec![1, 2, 3]; // Type infrencin
+
+v.push(4); // Adding element.
+
+println!("The value at index {} of v is: {}", 3, v[3]); // 4. Reading element.
+
+let value = v.get(3);
+
+match value {
+    Some(x) => println!("The value at index 3 of v is: {}", x),
+    None => println!("No value found at the given index!")
+};
+```
+
+Iterating over values:
+
+```rust
+let v = vec![1, 2, 3];
+
+for i in &v {
+  println!("{}", i);
+}
+```
+
+Iterate with mutation:
+
+```rust
+let mut v = vec![1, 2, 3];
+
+for i in &mut v {
+  *i += 42;
+}
+```
+
+Enums can be used to create vectors containing complex values while fulfilling the same-type requirement.
+
+### 8.2. Storing UTF-8 Encoded Text with Strings
+
+> The String type, which is provided by Rust’s standard library rather than coded into the core language, is a growable, mutable, owned, UTF-8 encoded string type.
+
+```rust
+let s1 = String::from("nyanpasu");
+let s2 = "nyanpasu".to_string();
+let mut s3 = String::from("nyan");
+let mut s4 = String::from("nyan");
+let s5 = format!("{}{}", "nyan", "pasu");
+
+s3.push_str("pasu"); // Note that "pasu" is of type str. This is coercion.
+s4 += "pasu"; // Note that "pasu" is of type str. This is coercion.
+
+println!("s1 is equal to s2: {}", s1 == s2); // true
+println!("s1 is equal to s3: {}", s1 == s3); // true
+println!("s1 is equal to s4: {}", s1 == s4); // true
+println!("s1 is equal to s4: {}", s1 == s5); // true
+```
+
+> Rust strings don’t support indexing.
+
+Consider the following examples:
+
+```rust
+let hello = String::from("Hola"); // 4 bytes.
+let hello = String::from("Здравствуйте"); // 24 bytes.
+let hello = String::from("नमस्ते"); // 18 bytes.
+```
