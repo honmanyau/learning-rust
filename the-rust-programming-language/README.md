@@ -543,12 +543,97 @@ cargo new --lib restaurant
 Module definition:
 
 ```rust
-mod module_name {
+mod some_module {
   // ...
 }
 ```
 
 > Modules can also hold definitions for other items, such as structs, enums, constants, traits [and functions]
 
+### 7.3. Paths for Referring to an Item in the Module Tree
 
+> Modules aren’t useful only for organizing your code. They also define Rust’s privacy boundary.
 
+Making descendent modules public:
+
+```rust
+mod some_module {
+  // ...
+  mod private_child_module {
+    // ...
+  }
+
+  pub mod public_child_module {
+    // ..
+  }
+}
+```
+
+> [The `super` keyword] is like starting a filesystem path with the `..` syntax.
+
+```rust
+mod some_module {
+  // ...
+  mod private_child_module {
+    // ..
+
+    super::outer_function();
+  }
+}
+
+fn outer_function() {
+  // ...
+}
+```
+
+Similarly, we can also make structs and enums public with the `pub` keyword. Note that individual fields are not public by default and require the `pub` keyword, too, where necessary.
+
+A struct with one or more private field requires a public constructor, otherwise one would not be able to instantiate the struct.
+
+All variants of a public enum is automatically made public, too.
+
+### 7.4. Bringing Paths Into Scope with the use Keyword
+
+```rust
+// Using the previous example.
+use crate::some_module::public_child_module;
+
+pub fn some_function() {
+  public_child_module::some_method();
+}
+```
+
+> Adding use and a path in a scope is similar to creating a symbolic link in the filesystem.
+
+We can also use the `self` keyword:
+
+```rust
+// Using the previous example.
+use self::some_module::public_child_module;
+
+pub fn some_function() {
+  public_child_module::some_method();
+}
+```
+
+Alias using the `as` keyword:
+
+```rust
+use std::io::Result as IoResult;
+```
+
+Re-exporting:
+
+```rust
+pub use crate::some_module::public_child_module; // External code now has access to public_child_module.
+```
+
+Nested paths and importing all:
+
+```rust
+use std::{cmp::Ordering, io};
+
+use std::io::{self, Write};
+
+use std::collections::*;
+```
