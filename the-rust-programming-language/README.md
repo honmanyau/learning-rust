@@ -524,3 +524,31 @@ if let Some(3) = some_u8_value {
 
 `if let` is syntax sugar for `match`ing one pattern while ignoring all others.
 
+## 7. Managing Growing Projects with Packages, Crates, and Modules
+
+### 7.1. Packages and Crates
+
+> A package must contain zero or one library crates, and no more
+
+> ... Cargo follows a convention that src/main.rs is the crate root of a binary crate with the same name as the package.
+
+### 7.2. Defining Modules to Control Scope and Privacy
+
+Creating a library:
+
+```sh
+cargo new --lib restaurant
+```
+
+Module definition:
+
+```rust
+mod module_name {
+  // ...
+}
+```
+
+> Modules can also hold definitions for other items, such as structs, enums, constants, traits [and functions]
+
+
+
