@@ -959,3 +959,82 @@ enum Result<T, E> {
 > Rust implements generics in such a way that your code doesn’t run any slower using generic types than it would with concrete types.
 
 > Rust accomplishes this by performing monomorphization of the code that is using generics at compile time.
+
+## 10.2. Traits: Defining Shared Behavior
+
+> Traits are similar to a feature often called interfaces in other languages, although with some differences.
+
+Defining a trait:
+
+```rust
+pub trait Summary {
+  fn summarize(&self) -> String;
+}
+```
+
+Implementing a trait:
+
+```rust
+pub struct NewsArticle {
+  // ...
+}
+
+impl Summary for NewsArticle {
+  fn summarize(&self) -> String {
+    // ...
+  }
+}
+```
+
+> But we can’t implement external traits on external types... This restriction is part of a property of programs called coherence, and more specifically the orphan rule...
+
+
+Default behaviour:
+
+```rust
+pub trait Summary {
+  fn summarize(&self) -> String {
+    String::from("(Read more...)")
+  }
+}
+
+impl Summary for NewsArticle {}
+```
+
+Trait as parameters:
+
+```rust
+pub fn notify(item: &impl Summary) {
+  println!("Breaking news! {}", item.summarize());
+}
+```
+
+The function above accepts any type that implements the `Summary` trait. The syntax used is actually syntax sugar for the following (trait bound syntax):
+
+```rust
+pub fn notify<T: Summary>(item: &T) {
+  println!("Breaking news! {}", item.summarize());
+}
+```
+
+Combining traits in one trait bound:
+
+```rust
+pub fn notify<T: Summary + Display>(item: &T) {
+  // ...
+}
+```
+
+Using the `where` clause with trait bounds:
+
+```rust
+fn some_function<T, U>(t: &T, u: &U) -> i32
+  where T: Display + Clone,
+        U: Clone + Debug
+{
+  // ...
+}
+```
+
+We can also use the `impl Trait` syntax as a return type, **but we can only return a single type** (we can use trait objects to get around this, see notes for Chapter 17).
+
