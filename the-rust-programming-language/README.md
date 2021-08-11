@@ -530,7 +530,7 @@ if let Some(3) = some_u8_value {
 
 > A package must contain zero or one library crates, and no more
 
-> ... Cargo follows a convention that src/main.rs is the crate root of a binary crate with the same name as the package.
+> ... Cargo follows a convention that `src/main.rs` is the crate root of a binary crate with the same name as the package.
 
 ### 7.2. Defining Modules to Control Scope and Privacy
 
@@ -676,8 +676,8 @@ println!("The value at index {} of v is: {}", 3, v[3]); // 4. Reading element.
 let value = v.get(3);
 
 match value {
-    Some(x) => println!("The value at index 3 of v is: {}", x),
-    None => println!("No value found at the given index!")
+  Some(x) => println!("The value at index 3 of v is: {}", x),
+  None => println!("No value found at the given index!")
 };
 ```
 
@@ -761,12 +761,12 @@ Accessing values in a hash map:
 let value = nonsensical.get("nyan");
 
 match value {
-    Some(x) => println!("{}", x),
-    None => println!("No value found")
+  Some(x) => println!("{}", x),
+  None => println!("No value found")
 }
 
 for (key, value) in &nonsensical {
-    println!("{}: {}", key, value);
+  println!("{}: {}", key, value);
 }
 ```
 
@@ -784,3 +784,178 @@ nonsensical.entry("nyanpasu").or_insert(4224);
 ```
 
 > By default, HashMap uses a hashing function called SipHash that can provide resistance to Denial of Service (DoS) attacks involving hash tables. This is not the fastest hashing algorithm available, but the trade-off for better security that comes with the drop in performance is worth it.
+
+## 9. Error Handling
+
+### 9.1. Unrecoverable Errors with panic!
+
+> When the panic! macro executes, your program will print a failure message, unwind and clean up the stack, and then quit.
+
+To abort on panic without unwinding:
+
+```toml
+[profile.release]
+panic = 'abort'
+```
+
+Stack trace for `panic!`:
+
+```sh
+RUST_BACKTRACE=1 cargo run
+```
+
+## 9.2. Recoverable Errors with Result
+
+Error handling example:
+
+```rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+  let filename = "nyanpasu.txt";
+  let f = File:: open(filename);
+  let f = match f {
+    Ok(file) => file,
+    Err(error) => match error.kind() {
+      ErrorKind::NotFound => match File::create(filename) {
+        Ok(created) => created,
+        Err(e) => panic!("Problem creating {}: {:?}", filename, e)
+      },
+      other_error => {
+        panic!("Problem opening {}: {:?}", filename, other_error)
+      }
+    }
+  };
+}
+```
+
+An example of returning value of `Ok` or panic automatically:
+
+```rust
+let f = File::open("nyanpasu.txt").unwrap();
+```
+
+Or use `expect` to also provide a custom message:
+
+```rust
+let f = File::open("nyanpasu.txt").expect("Failed to open nyanpasu.txt");
+```
+
+Returning `Result` in a function:
+
+```rust
+fn read_some_file() -> Result<String, io::Error> {
+  // Code for reading a file ...
+
+  let mut s = String::new();
+
+  match f.read_to_string(&mut s) {
+    Ok(_) => Ok(s),
+    Err(e) => Err(e),
+  }
+}
+```
+
+The `?` operator:
+
+```rust
+fn read_some_file() -> Result<String, io::Error> {
+  let mut f = File::open("nyanpasu.txt")?;
+  let mut s = String::new();
+
+  f.read_to_string(&mut s)?;
+  Ok(s)
+}
+```
+
+Chaining after `?`:
+
+```rust
+fn read_some_file() -> Result<String, io::Error> {
+  let mut s = String::new();
+
+  File::open("nyanpasu.txt")?f.read_to_string(&mut s)?;
+  Ok(s)
+}
+```
+
+One-liner that works the same as the functions above:
+
+```rust
+fn read_some_file() -> Result<String, io::Error> {
+  fs::read_to_string("nyanpasu.txt")
+}
+```
+
+### 9.3. To panic! or Not To panic!
+
+> It’s advisable to have your code panic when it’s possible that your code could end up in a bad state [and]:
+>
+> * The bad state is not something that’s expected to happen occasionally.
+> * Your code after this point needs to rely on not being in this bad state.
+> * There’s not a good way to encode this information in the types you use.
+
+> However, when failure is expected, it’s more appropriate to return a Result than to make a panic!
+
+
+## 10. Generic Types, Traits, and Lifetimes
+
+### 10.1. Generic Data Types
+
+```rust
+fn largest<T>(list: &[T]) -> T {
+  // ...
+}
+```
+
+Using generic with structs and methods:
+
+```rust
+struct Point<T> {
+  x: T,
+  y: T,
+}
+
+fn main() {
+  let integer = Point { x: 4, y: 2 };
+  let float = Point { x: 4.2, y: 2.4 };
+}
+
+impl<T> Point<T> {
+  fn x(&self) -> &T {
+    &self.x
+  }
+}
+```
+
+> By declaring T as a generic type after impl, Rust can identify that the type in the angle brackets in Point is a generic type rather than a concrete type.
+
+Compare the above with a method implemented using a concrete type:
+
+```rust
+impl Point<f32> {
+  fn distance_from_origin(&self) -> f32 {
+    (self.x.powi(2) + self.y.powi(2)).sqrt()
+  }
+}
+```
+
+
+And in enums:
+
+```rust
+enum Option<T> {
+  Some(T),
+  None,
+}
+
+enum Result<T, E> {
+  Ok(T),
+  Err(E),
+}
+```
+
+> Rust implements generics in such a way that your code doesn’t run any slower using generic types than it would with concrete types.
+
+> Rust accomplishes this by performing monomorphization of the code that is using generics at compile time.
