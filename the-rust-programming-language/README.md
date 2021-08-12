@@ -804,7 +804,7 @@ Stack trace for `panic!`:
 RUST_BACKTRACE=1 cargo run
 ```
 
-## 9.2. Recoverable Errors with Result
+### 9.2. Recoverable Errors with Result
 
 Error handling example:
 
@@ -960,7 +960,7 @@ enum Result<T, E> {
 
 > Rust accomplishes this by performing monomorphization of the code that is using generics at compile time.
 
-## 10.2. Traits: Defining Shared Behavior
+### 10.2. Traits: Defining Shared Behavior
 
 > Traits are similar to a feature often called interfaces in other languages, although with some differences.
 
@@ -1037,4 +1037,104 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 ```
 
 We can also use the `impl Trait` syntax as a return type, **but we can only return a single type** (we can use trait objects to get around this, see notes for Chapter 17).
+
+Conditional trait implementation by matching trait bounds:
+
+```rust
+use std::fmt::Display;
+
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Pair<T> {
+  // ...
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+  fn some_function(&self) {
+    // ...
+  }
+}
+```
+
+Blanket implementation, for example, implement the `ToString` type for any type that implements `Display`:
+
+```rust
+impl<T: Display> ToString for T {
+  // ...
+}
+```
+
+### 10.3. Validating References with Lifetimes
+
+> ... every reference in Rust has a *lifetime*, which is the scope for which that reference is valid.
+
+> Rust requires us to annotate the relationships using generic lifetime parameters to ensure the actual references used at runtime will definitely be valid.
+
+> The Rust compiler has a *borrow checker* that compares scopes to determine whether all borrows are valid.
+
+Lifetime annotation syntax:
+
+```rust
+&'a i32
+&'a mut i32
+```
+
+The following annotation tells Rust that both references `x` and `y` have the same lifetime. `'a`, as the return value. The code would not compile without lifetime annotation because the compiler cannot tell in advance (in fact, we can't either) whether `x` or `y` would be returned a therefore what their lifetimes should be w.r.t. the return value.
+
+```rust
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+  if x.len() > y.len() {
+    x
+  } else {
+    y
+  }
+}
+```
+
+This also compiles and highlights that lifetimes are about relationships:
+
+```rust
+fn longest<'a>(x: &'a str, y: &str) -> &'a str {
+  x
+}
+```
+
+> Ultimately, lifetime syntax is about connecting the lifetimes of various parameters and return values of functions. **Once they’re connected, Rust has enough information to allow memory-safe operations and disallow operations that would create dangling pointers or otherwise violate memory safety.**
+
+Structs can also hold references, and in that case they require lifetime annotation:
+
+```rust
+struct SomeStruct<'a> {
+    part: &'a str,
+}
+```
+
+> \[Some\] situations were predictable and followed a few deterministic patterns... The patterns programmed into Rust’s analysis of references are called the lifetime elision rules.
+
+The following code, which doesn't have lifetime annotations, compiles because of lifetime elision rules:
+
+```rust
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+```
+
+> Lifetimes on function or method parameters are called input lifetimes, and lifetimes on return values are called output lifetimes.
+
+The `'static` lifetime "means that a reference can live for the entire duration of the program."
+
+```rust
+let s: &'static str = "Wool carpet.";
+```
 
