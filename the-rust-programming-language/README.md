@@ -1204,3 +1204,80 @@ fn it_works() -> Result<(), String> {
   }
 }
 ```
+
+### 11.2. Controlling How Tests Are Run
+
+Tests run multi-threaded by default, control the number of threads as follows:
+
+```sh
+cargo test -- --test-threads=1
+```
+
+Note that using a single thread also means that tests do not run in paralle.
+
+To see output:
+
+```sh
+cargo test -- --show-output
+```
+
+Running a single test:
+
+```rust
+#[cfg(test)]
+mod tests {
+
+  #[test]
+  fn some_test() {
+    // ...
+  }
+}
+```
+
+```sh
+cargo test some_test
+```
+
+Running multiple tests my substring matching:
+
+```rust
+#[cfg(test)]
+mod tests {
+
+  #[test]
+  fn add_some_values_a() {
+    // ...
+  }
+
+  #[test]
+  fn add_some_values_b() {
+    // ...
+  }
+
+  #[test]
+  fn subtract_some_values() {
+    // ...
+  }
+}
+```
+
+```sh
+cargo test add # Runs all tests for which "add" is a substring, including a module's name.
+```
+
+Excluding a test when running `cargo test`:
+
+```rust
+#[test]
+#[ignore]
+fn expensive_test() {
+    // code that takes an hour to run
+}
+```
+
+Running ignored tests:
+
+```rust
+cargo test -- --ignored
+```
+
