@@ -1271,7 +1271,7 @@ Excluding a test when running `cargo test`:
 #[test]
 #[ignore]
 fn expensive_test() {
-    // code that takes an hour to run
+  // code that takes an hour to run
 }
 ```
 
@@ -1280,4 +1280,40 @@ Running ignored tests:
 ```rust
 cargo test -- --ignored
 ```
+
+### 11.3. Test Organization
+
+> The convention is to create a module named tests in each file to contain the test functions and to annotate the module with `cfg(test)`.
+
+> Rust’s privacy rules do allow you to test private functions. [(Functions without the `pub` keyword.)]
+
+> To create integration tests, you first need a tests directory.
+
+```rust
+// tests/integration_tests.rs
+use adder;
+
+#[test]
+fn it_adds_two() {
+  assert_eq!(4, adder::add_two(2));
+}
+```
+
+> ... each file in the tests directory is compiled as its own separate crate.
+
+To prevent Rust from avoid running tests on common modules in the `tests` directory, use the convention `tests/common/mod.rs`, and in the test files that use the modules:
+
+```rust
+use adder;
+
+mod common;
+
+#[test]
+fn it_adds_two() {
+    common::setup();
+    assert_eq!(4, adder::add_two(2));
+}
+```
+
+> \[We can only create integration tests in the `test` directory \] for library crates expose functions that other crates can use; binary crates are meant to be run on their own.
 
