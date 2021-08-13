@@ -1138,3 +1138,69 @@ The `'static` lifetime "means that a reference can live for the entire duration 
 let s: &'static str = "Wool carpet.";
 ```
 
+## 11. Writing Automated Tests
+
+### 11.1. How to Write Tests
+
+> At its simplest, a test in Rust is a function that’s annotated with the test attribute.
+
+```rust
+#[test]
+fn it_works() {
+  assert_eq!(2 + 2, 4);
+}
+
+#[test]
+fn it_does_not_work() {
+  panic!("Wah!");
+}
+```
+
+> When \[~~the~~\] assertions fail, these macros print their arguments using debug formatting, which means the values being compared must implement the PartialEq and Debug traits.
+
+Printing custom error message with assert:
+
+```rust
+#[test]
+fn fail_with_message() {
+  assert!(
+    2 + 4 == 42,
+    "The numbers {} and {} do not add up to 42",
+    2,
+    4
+  );
+}
+```
+
+Testing for panics:
+
+```rust
+#[test]
+#[should_panic]
+fn panic_inducing_function() {
+  panic!("Wah!");
+}
+```
+
+With expected panic message (the test will fail if the panic messages don't match):
+
+```rust
+#[test]
+#[should_panic(expected = "Wah!")]
+fn panic_inducing_function() {
+  panic!("Wah!");
+}
+```
+
+Test function that returns `Result<T, E>`:
+
+```rust
+#[test]
+fn it_works() -> Result<(), String> {
+  if 2 + 2 == 4 {
+    Ok(())
+  } else {
+    Err(String::from("two plus two does not equal four!"))
+  }
+}
+```
