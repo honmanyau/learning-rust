@@ -1324,3 +1324,14 @@ fn it_adds_two() {
 > If your program needs to accept arguments containing invalid Unicode, use std::env::args_os instead.
 
 > ... collect is one function you do often need to annotate because Rust isn’t able to infer the kind of collection you want.
+
+### 12.3. Refactoring to Improve Modularity and Error Handling
+
+One of the important effects of having appropriate separation of concerns is that code can be properly tested — recall that we cannot test the `main` function directly.
+
+> There’s a tendency among many Rustaceans to avoid using clone to fix ownership problems because of its runtime cost.
+
+> ... `panic!` is more appropriate for a programming problem than a usage problem
+
+> \[The\] `Ok(())` syntax might look a bit strange at first, but using () like this is the idiomatic way to indicate that we’re calling run for its side effects only; it doesn’t return a value we need.
+
