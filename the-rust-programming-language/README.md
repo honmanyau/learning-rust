@@ -1317,3 +1317,10 @@ fn it_adds_two() {
 
 > \[We can only create integration tests in the `test` directory \] for library crates expose functions that other crates can use; binary crates are meant to be run on their own.
 
+## 12. An I/O Project: Building a Command Line Program
+
+### 12.1. Accepting Command Line Arguments
+
+> If your program needs to accept arguments containing invalid Unicode, use std::env::args_os instead.
+
+> ... collect is one function you do often need to annotate because Rust isn’t able to infer the kind of collection you want.
