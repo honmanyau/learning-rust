@@ -1,0 +1,6 @@
+# Build
+target
+
+# Miscellaneous
+.DS_Store
+.vscode
